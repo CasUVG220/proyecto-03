@@ -37,6 +37,9 @@ pub fn build(b: *std.Build) void {
     const test_files = [_][]const u8{
         "src/mesh.zig",
         "src/raster.zig",
+        "src/solar_system.zig",
+        "src/lighting.zig",
+        "src/textures_claude.zig",
     };
     for (test_files) |path| {
         const t = b.addTest(.{
