@@ -40,6 +40,7 @@ pub fn build(b: *std.Build) void {
         "src/solar_system.zig",
         "src/lighting.zig",
         "src/textures_claude.zig",
+        "src/shaders.zig",
     };
     for (test_files) |path| {
         const t = b.addTest(.{
