@@ -34,7 +34,7 @@ fn saveShot(fb: *const Framebuffer, path: [:0]const u8) void {
 }
 
 pub fn main(init: std.process.Init) !void {
-    // Argumentos opcionales de desarrollo: --shot out.png [indice_destino]
+    // Argumentos opcionales de desarrollo: --shot out.png [indice_destino [mid]]
     const args = try init.minimal.args.toSlice(init.arena.allocator());
     var shot_path: ?[:0]const u8 = null;
     var shot_target: ?usize = null;
@@ -91,7 +91,8 @@ pub fn main(init: std.process.Init) !void {
         frames += 1;
         if (shot_target) |t| {
             if (frames == 1) travel.start(&cam, t);
-            if (frames == 2) travel.t = 0.999;
+            // Con un 3er argumento ("mid") se captura a mitad del viaje (efecto warp).
+            if (frames == 2) travel.t = if (args.len > 4) 0.5 else 0.999;
         }
 
         // ---- entrada ----
