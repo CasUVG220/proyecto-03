@@ -35,7 +35,8 @@ pub fn build(b: *std.Build) void {
     // Pruebas unitarias: solo usan tipos de raylib, no abren ventana.
     const test_step = b.step("test", "Corre las pruebas");
     const test_files = [_][]const u8{
-        "src/framebuffer.zig",
+        "src/mesh.zig",
+        "src/raster.zig",
     };
     for (test_files) |path| {
         const t = b.addTest(.{
