@@ -8,6 +8,7 @@ const Framebuffer = @import("framebuffer.zig").Framebuffer;
 const Renderer = @import("renderer.zig").Renderer;
 const RenderSettings = @import("renderer.zig").Settings;
 const solar = @import("solar_system.zig");
+const Ship = @import("ship.zig").Ship;
 const Stars = @import("stars.zig").Stars;
 const textures_claude = @import("textures_claude.zig");
 const Travel = @import("travel.zig").Travel;
@@ -15,9 +16,9 @@ const travel_mod = @import("travel.zig");
 
 // El mundo se dibuja a baja resolucion y se escala con un factor entero:
 // menos pixeles que calcular = mas FPS.
-const RENDER_W: i32 = 480;
-const RENDER_H: i32 = 270;
-const SCALE: i32 = 3;
+const RENDER_W: i32 = 640;
+const RENDER_H: i32 = 360;
+const SCALE: i32 = 2;
 const ASPECT: f32 = @as(f32, RENDER_W) / @as(f32, RENDER_H);
 
 /// Guarda el framebuffer actual como PNG (tecla F12, o `--shot archivo.png`).
@@ -73,6 +74,8 @@ pub fn main(init: std.process.Init) !void {
     const stars = Stars.init(2026);
     var cam = camera.Camera{ .pos = rl.Vector3.init(0, 70, 150), .fov = travel_mod.BASE_FOV };
     cam.lookAt(rl.Vector3.zero());
+    var ship = try Ship.init(gpa, &cam);
+    defer ship.deinit(gpa);
     var travel = Travel{};
     var settings = RenderSettings{};
     var occluders: [solar.COUNT]lighting.Occluder = undefined;
@@ -107,7 +110,9 @@ pub fn main(init: std.process.Init) !void {
         solar.update(&bodies, sim_time);
         if (travel.active) {
             travel.update(&cam, &bodies, dt);
-        } else {
+        } else if (frames <= 2) {
+            _ = rl.getMouseDelta(); // el primer delta del mouse es un salto falso
+        } else if (shot_path == null) {
             controls.update(&cam, &bodies, dt);
         }
 
@@ -121,12 +126,17 @@ pub fn main(init: std.process.Init) !void {
             .occluders = &occluders,
             .shadows = settings.shadows,
         };
+        ship.update(&cam, &bodies, dt);
         const view = cam.view(ASPECT);
+        const moving = travel.active or rl.isKeyDown(.w) or rl.isKeyDown(.left_shift);
 
+        const t_render = rl.getTime();
         fb.clear(rl.Color.init(3, 3, 10, 255));
         stars.draw(&fb, &view, sim_time, travel.warp());
         renderer.drawBodies(&fb, &view, &bodies, &tex, &light, sim_time, settings);
+        ship.draw(&fb, &view, &light, sim_time, if (moving) 1 else 0.2, settings.cull_backfaces);
 
+        if (shot_path != null) std.debug.print("render: {d:.2} ms, {d} tris\n", .{ (rl.getTime() - t_render) * 1000, renderer.tris_drawn });
         if (rl.isKeyPressed(.f12)) saveShot(&fb, "captura.png");
         if (shot_path) |p| {
             if (frames >= 6) {

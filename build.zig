@@ -14,13 +14,21 @@ pub fn build(b: *std.Build) void {
     const raylib = raylib_dep.module("raylib");
     const raylib_artifact = raylib_dep.artifact("raylib");
 
+    // El modelo de la nave se incrusta en el ejecutable (no hay que cargarlo
+    // del disco, asi el programa corre desde cualquier carpeta).
+    const ship_obj = b.createModule(.{ .root_source_file = b.path("assets/ship.obj") });
+    const imports = [_]std.Build.Module.Import{
+        .{ .name = "raylib", .module = raylib },
+        .{ .name = "ship_obj", .module = ship_obj },
+    };
+
     const exe = b.addExecutable(.{
         .name = "proyecto_03",
         .root_module = b.createModule(.{
             .root_source_file = b.path("src/main.zig"),
             .target = target,
             .optimize = optimize,
-            .imports = &.{.{ .name = "raylib", .module = raylib }},
+            .imports = &imports,
         }),
     });
     exe.root_module.linkLibrary(raylib_artifact);
@@ -41,6 +49,8 @@ pub fn build(b: *std.Build) void {
         "src/lighting.zig",
         "src/textures_claude.zig",
         "src/shaders.zig",
+        "src/obj.zig",
+        "src/ship.zig",
     };
     for (test_files) |path| {
         const t = b.addTest(.{
@@ -48,7 +58,7 @@ pub fn build(b: *std.Build) void {
                 .root_source_file = b.path(path),
                 .target = target,
                 .optimize = optimize,
-                .imports = &.{.{ .name = "raylib", .module = raylib }},
+                .imports = &imports,
             }),
         });
         t.root_module.linkLibrary(raylib_artifact);
