@@ -6,6 +6,7 @@ const View = @import("camera.zig").View;
 const Vec3 = rl.Vector3;
 
 const NEAR: f32 = 0.1;
+const EDGE_EPS: f32 = 1e-4;
 
 pub const Fragment = struct {
     world: Vec3,
@@ -111,7 +112,7 @@ fn fillTriangle(
             const l0 = ((sx[1] - px) * (sy[2] - py) - (sx[2] - px) * (sy[1] - py)) * inv_area;
             const l1 = ((sx[2] - px) * (sy[0] - py) - (sx[0] - px) * (sy[2] - py)) * inv_area;
             const l2 = 1 - l0 - l1;
-            if (l0 < 0 or l1 < 0 or l2 < 0) continue;
+            if (l0 < -EDGE_EPS or l1 < -EDGE_EPS or l2 < -EDGE_EPS) continue;
 
             const iz = l0 * inv_z[0] + l1 * inv_z[1] + l2 * inv_z[2];
             const z = 1 / iz;

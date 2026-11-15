@@ -35,7 +35,7 @@ pub const Light = struct {
 
         var lit: f32 = 1;
         for (self.occluders) |o| {
-            if (o.id == self_id) continue;
+            if (o.id == self_id or o.radius <= 0) continue;
             const oc = o.center.subtract(p);
             const along = oc.dotProduct(l);
             if (along <= 0 or along >= dist_sun) continue;
@@ -45,7 +45,9 @@ pub const Light = struct {
             const reach = (occ_angle + penumbra) * along;
             if (off.lengthSqr() > reach * reach) continue;
             const sep = off.length() / along;
-            const cover = smoothstep(-penumbra, penumbra, occ_angle - sep);
+            var cover = smoothstep(-penumbra, penumbra, occ_angle - sep);
+            const ratio = occ_angle / sun_angle;
+            cover *= @min(1, ratio * ratio);
             lit *= 1 - cover;
         }
         return lit;
