@@ -18,6 +18,14 @@ pub const View = struct {
     }
 };
 
+pub fn project(v: View, p: Vec3, w: f32, h: f32) ?[2]f32 {
+    if (p.z < 0.01) return null;
+    return .{
+        (p.x / (p.z * v.tan_half_fov * v.aspect) * 0.5 + 0.5) * w,
+        (0.5 - p.y / (p.z * v.tan_half_fov) * 0.5) * h,
+    };
+}
+
 pub const Camera = struct {
     pos: Vec3,
     yaw: f32 = 0,
