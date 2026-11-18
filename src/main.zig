@@ -86,7 +86,7 @@ pub fn main(init: std.process.Init) !void {
         frames += 1;
         if (shot_target) |t| {
             if (frames == 1) travel.start(&cam, t);
-            if (frames == 2) travel.t = 0.999;
+            if (frames == 2) travel.t = if (args.len > 4) 0.5 else 0.999;
         }
 
         if (rl.isKeyPressed(.p)) paused = !paused;
