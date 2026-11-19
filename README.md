@@ -34,6 +34,7 @@ Requiere Zig 0.16.0 y conexión a internet la primera vez (para bajar raylib-zig
 | Shift | Ir más rápido |
 | 1 - 8 | **Viaje rápido**: Sol, Mercurio, Venus, Tierra, Luna, Marte, Júpiter, Neptuno |
 | Tab | Viajar al siguiente cuerpo |
+| M | Soltar / recapturar el mouse (para sacarlo de la ventana) |
 | P | Pausar las órbitas |
 | B | Activar / desactivar back-face culling |
 | V | Activar / desactivar sombras |

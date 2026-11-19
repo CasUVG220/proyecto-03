@@ -78,6 +78,7 @@ pub fn main(init: std.process.Init) !void {
     var sim_time: f32 = if (shot_path != null) 20 else 0;
     var frames: u32 = 0;
     var paused = false;
+    var mouse_captured = true;
     var title_timer: f32 = 0;
     var title_buf: [200:0]u8 = undefined;
 
@@ -90,6 +91,10 @@ pub fn main(init: std.process.Init) !void {
         }
 
         if (rl.isKeyPressed(.p)) paused = !paused;
+        if (rl.isKeyPressed(.m)) {
+            mouse_captured = !mouse_captured;
+            if (mouse_captured) rl.disableCursor() else rl.enableCursor();
+        }
         if (rl.isKeyPressed(.b)) settings.cull_backfaces = !settings.cull_backfaces;
         if (rl.isKeyPressed(.v)) settings.shadows = !settings.shadows;
         if (rl.isKeyPressed(.l)) settings.force_low_lod = !settings.force_low_lod;
@@ -106,7 +111,7 @@ pub fn main(init: std.process.Init) !void {
         } else if (frames <= 2) {
             _ = rl.getMouseDelta();
         } else if (shot_path == null) {
-            controls.update(&cam, &bodies, dt);
+            controls.update(&cam, &bodies, dt, mouse_captured);
         }
 
         for (bodies, 0..) |b, i| {

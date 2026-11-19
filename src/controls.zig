@@ -12,10 +12,12 @@ const BOOST: f32 = 4;
 const CAM_RADIUS: f32 = 1.6;
 const MAX_PITCH: f32 = 1.5;
 
-pub fn update(cam: *Camera, bodies: []const solar.Body, dt: f32) void {
-    const md = rl.getMouseDelta();
-    cam.yaw += md.x * LOOK_SPEED;
-    cam.pitch -= md.y * LOOK_SPEED;
+pub fn update(cam: *Camera, bodies: []const solar.Body, dt: f32, use_mouse: bool) void {
+    if (use_mouse) {
+        const md = rl.getMouseDelta();
+        cam.yaw += md.x * LOOK_SPEED;
+        cam.pitch -= md.y * LOOK_SPEED;
+    }
     if (rl.isKeyDown(.left)) cam.yaw -= KEY_LOOK_SPEED * dt;
     if (rl.isKeyDown(.right)) cam.yaw += KEY_LOOK_SPEED * dt;
     if (rl.isKeyDown(.up)) cam.pitch += KEY_LOOK_SPEED * dt;
