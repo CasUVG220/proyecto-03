@@ -8,7 +8,7 @@ de vectores. **Ningún píxel lo dibuja raylib**: lo escribe nuestro rasterizado
 
 ## Video
 
-> Video de la cámara explorando el sistema: **(pendiente: pegar aquí el link)**
+> Video de la cámara explorando el sistema: **(https://uvggt-my.sharepoint.com/:f:/r/personal/cas24014_uvg_edu_gt/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fcas24014%5Fuvg%5Fedu%5Fgt%2FDocuments%2FProy%203&share=cgrxT1La5K7kTpsEV1QJSCiMEgUCPmpnR%2D1c%2DdHrAr6cxqDGpw)**
 
 ![Sistema completo](./docs/sistema.png)
 ![Viaje rápido](./docs/warp.png)
@@ -125,7 +125,6 @@ depende de cómo se generan.
 | Colisiones de cámara y nave | 10 | `solar_system.zig` (`pushOut`) |
 | Movimiento 3D de la cámara | 10 | `controls.zig` |
 
-Explicación detallada del código, archivo por archivo: [EXPLICACION.md](./EXPLICACION.md).
 
 ## Lista de requisitos
 
