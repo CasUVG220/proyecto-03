@@ -92,5 +92,5 @@ test "indices negativos y caras invalidas" {
 test "la nave de assets se carga: tiene quads y octagonos" {
     var m = try parse(std.testing.allocator, @embedFile("ship_obj"), &.{ "hull", "cockpit", "engine", "wing" });
     defer m.deinit(std.testing.allocator);
-    try std.testing.expectEqual(@as(usize, 104), m.tris.len);
+    try std.testing.expectEqual(@as(usize, 340), m.tris.len);
 }

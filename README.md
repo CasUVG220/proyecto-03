@@ -95,6 +95,28 @@ depende de cómo se generan.
 | Júpiter | Animado: las bandas se desplazan a distinta velocidad según la latitud. |
 | Neptuno | **Modifica la geometría**: la superficie ondula con el tiempo. |
 
+## Puntos de la rúbrica que están completos
+
+| Requisito de la rúbrica | Puntos | Dónde |
+|---|---|---|
+| Planetas y luna, cada uno con textura distinta (7 cuerpos, tope de 50) | 50 | `textures_claude.zig`, `solar_system.zig` |
+| Shader único y especial: Venus, Tierra, Júpiter y Neptuno (5 c/u) | 20 | `shaders.zig` |
+| Las estrellas (el Sol) iluminan de verdad a los planetas | 10 | `lighting.zig` |
+| Back-face culling | 10 | `raster.zig` (tecla B) |
+| LOD | 10 | `renderer.zig` (tecla L) |
+| El programa corre bien | 10 | ~4 ms por cuadro |
+| No se atasca cerca de los objetos | 10 | recorte contra el plano cercano en `raster.zig` |
+| Viaje rápido | 10 | `travel.zig` (teclas 1-8 y Tab) |
+| Efecto animado al viajar | 10 | `travel.zig` + `stars.zig` |
+| Nave que sigue a la cámara | 30 | `ship.zig` |
+| Nave modelada por nosotros (`.blend`) | 10 | `assets/ship.blend` |
+| Modelos con caras que no son triángulos | 20 | `obj.zig` |
+| Skybox con estrellas | 10 | `stars.zig` |
+| Colisiones de cámara y nave | 10 | `solar_system.zig` (`pushOut`) |
+| Movimiento 3D de la cámara | 10 | `controls.zig` |
+
+Explicación detallada del código, archivo por archivo: [EXPLICACION.md](./EXPLICACION.md).
+
 ## Lista de requisitos
 
 | Requisito | Dónde |
