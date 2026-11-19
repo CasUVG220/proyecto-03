@@ -14,6 +14,15 @@ de vectores. **Ningún píxel lo dibuja raylib**: lo escribe nuestro rasterizado
 ![Viaje rápido](./docs/warp.png)
 ![Júpiter](./docs/jupiter.png)
 
+## La nave (modelada en Blender)
+
+La nave la modelamos en Blender (`assets/ship.blend`) y la exportamos a
+`assets/ship.obj`, que es el que lee el programa. Está hecha con **quads y
+octágonos** (146 quads y 8 octágonos), no solo triángulos, y usa 4 materiales:
+casco, cabina, motor y ala.
+
+![Nave en Blender](./docs/nave_blender.png)
+
 ## Cómo correr
 
 ```sh
